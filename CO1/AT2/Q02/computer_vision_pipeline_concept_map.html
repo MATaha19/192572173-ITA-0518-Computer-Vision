@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Computer Vision System: A Hierarchical Concept Map</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background:#fafaf7; color:#222; margin:0; padding:32px 16px 64px; }
+  .wrap { max-width:1400px; margin:0 auto; }
+  h1 { font-size:24px; font-weight:600; margin-bottom:4px; }
+  p.sub { color:#555; margin-top:0; margin-bottom:24px; font-size:14px; }
+  .legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:24px; font-size:12.5px; }
+  .legend span.dot { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+  svg { display:block; width:100%; height:auto; background:#fff; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+  .t { font-size:14.5px; font-weight:600; }
+  .ts { font-size:12px; }
+  .tsub { font-size:11.5px; fill:#555; }
+  .band-label { font-size:15px; font-weight:700; }
+  .band-sub { font-size:12px; fill:#555; }
+  .arrow-label { font-size:12px; fill:#444; }
+  .lit { font-size:11px; fill:#666; font-style:italic; }
+  footer { margin-top:20px; font-size:12.5px; color:#666; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Computer vision system: hierarchical concept map</h1>
+  <p class="sub">Major stages of visual data handling, from raw pixels to actionable output, with representative algorithms/literature families noted at each stage.</p>
+
+  <div class="legend">
+    <div><span class="dot" style="background:#1565c0"></span>Acquisition</div>
+    <div><span class="dot" style="background:#0f766e"></span>Preprocessing</div>
+    <div><span class="dot" style="background:#b45309"></span>Segmentation</div>
+    <div><span class="dot" style="background:#7e22ce"></span>Feature extraction</div>
+    <div><span class="dot" style="background:#c2410c"></span>Detection &amp; recognition</div>
+    <div><span class="dot" style="background:#be185d"></span>Scene understanding</div>
+    <div><span class="dot" style="background:#334155"></span>Output / action</div>
+  </div>
+
+  <svg viewBox="0 0 1400 2650" xmlns="http://www.w3.org/2000/svg" role="img">
+    <title>Hierarchical concept map of a computer vision pipeline</title>
+    <desc>Seven stages from image acquisition through preprocessing, segmentation, feature extraction, detection and recognition, scene understanding, to output, each with sub-concepts and literature references.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- ROOT -->
+    <rect x="500" y="20" width="400" height="60" rx="10" fill="#111827" stroke="#000" stroke-width="1"/>
+    <text class="t" x="700" y="55" fill="#fff" text-anchor="middle">Computer vision system</text>
+    <line x1="700" y1="80" x2="700" y2="120" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- ===== STAGE 1: ACQUISITION ===== -->
+    <rect x="40" y="120" width="1220" height="170" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="146" fill="#0d47a1">1. Image acquisition</text>
+    <text class="band-sub" x="60" y="164">Converting a scene into a raw digital signal the system can process</text>
+    <g>
+      <rect x="100" y="175" width="360" height="95" rx="8" fill="#fff" stroke="#1565c0" stroke-width="1"/>
+      <text class="ts" x="118" y="196" font-weight="600" fill="#0d47a1">Sensing modality</text>
+      <text class="tsub" x="118" y="214">RGB, depth, stereo, LiDAR, IR</text>
+      <text class="lit" x="118" y="232">cf. multi-modal imaging literature</text>
+    </g>
+    <g>
+      <rect x="500" y="175" width="360" height="95" rx="8" fill="#fff" stroke="#1565c0" stroke-width="1"/>
+      <text class="ts" x="518" y="196" font-weight="600" fill="#0d47a1">Camera parameters</text>
+      <text class="tsub" x="518" y="214">Resolution, exposure, calibration</text>
+      <text class="lit" x="518" y="232">Zhang's calibration method</text>
+    </g>
+    <g>
+      <rect x="900" y="175" width="320" height="95" rx="8" fill="#fff" stroke="#1565c0" stroke-width="1"/>
+      <text class="ts" x="918" y="196" font-weight="600" fill="#0d47a1">Raw frame / video stream</text>
+      <text class="tsub" x="918" y="214">Pixel array input to the pipeline</text>
+    </g>
+    <line x1="700" y1="290" x2="700" y2="340" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="322">raw pixels are cleaned and standardized</text>
+
+    <!-- ===== STAGE 2: PREPROCESSING ===== -->
+    <rect x="40" y="340" width="1220" height="170" rx="12" fill="#ccfbf1" stroke="#0f766e" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="366" fill="#115e59">2. Preprocessing</text>
+    <text class="band-sub" x="60" y="384">Conditioning the image to reduce noise and normalize variation</text>
+    <g>
+      <rect x="100" y="395" width="360" height="95" rx="8" fill="#fff" stroke="#0f766e" stroke-width="1"/>
+      <text class="ts" x="118" y="416" font-weight="600" fill="#115e59">Noise reduction</text>
+      <text class="tsub" x="118" y="434">Gaussian, median, bilateral filters</text>
+      <text class="lit" x="118" y="452">Tomasi &amp; Manduchi bilateral filter</text>
+    </g>
+    <g>
+      <rect x="500" y="395" width="360" height="95" rx="8" fill="#fff" stroke="#0f766e" stroke-width="1"/>
+      <text class="ts" x="518" y="416" font-weight="600" fill="#115e59">Normalization</text>
+      <text class="tsub" x="518" y="434">Histogram equalization, contrast</text>
+      <text class="lit" x="518" y="452">Gonzalez &amp; Woods, Ch. 3</text>
+    </g>
+    <g>
+      <rect x="900" y="395" width="320" height="95" rx="8" fill="#fff" stroke="#0f766e" stroke-width="1"/>
+      <text class="ts" x="918" y="416" font-weight="600" fill="#115e59">Geometric correction</text>
+      <text class="tsub" x="918" y="434">Lens distortion, alignment, warping</text>
+    </g>
+    <line x1="700" y1="510" x2="700" y2="560" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="542">the image is partitioned into meaningful regions</text>
+
+    <!-- ===== STAGE 3: SEGMENTATION ===== -->
+    <rect x="40" y="560" width="1220" height="170" rx="12" fill="#fef3c7" stroke="#b45309" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="586" fill="#92400e">3. Segmentation</text>
+    <text class="band-sub" x="60" y="604">Grouping pixels into regions that correspond to structures or objects</text>
+    <g>
+      <rect x="100" y="615" width="360" height="95" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+      <text class="ts" x="118" y="636" font-weight="600" fill="#92400e">Thresholding &amp; edges</text>
+      <text class="tsub" x="118" y="654">Otsu's method, Canny edge detector</text>
+      <text class="lit" x="118" y="672">Otsu 1979; Canny 1986</text>
+    </g>
+    <g>
+      <rect x="500" y="615" width="360" height="95" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+      <text class="ts" x="518" y="636" font-weight="600" fill="#92400e">Region-based methods</text>
+      <text class="tsub" x="518" y="654">Watershed, region growing</text>
+      <text class="lit" x="518" y="672">Vincent &amp; Soille watershed</text>
+    </g>
+    <g>
+      <rect x="900" y="615" width="320" height="95" rx="8" fill="#fff" stroke="#b45309" stroke-width="1"/>
+      <text class="ts" x="918" y="636" font-weight="600" fill="#92400e">Deep segmentation</text>
+      <text class="tsub" x="918" y="654">Fully convolutional nets, U-Net</text>
+      <text class="lit" x="918" y="672">Long et al. 2015; Ronneberger 2015</text>
+    </g>
+    <line x1="700" y1="730" x2="700" y2="780" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="762">regions are described by distinctive, matchable properties</text>
+
+    <!-- ===== STAGE 4: FEATURE EXTRACTION ===== -->
+    <rect x="40" y="780" width="1220" height="170" rx="12" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="806" fill="#6b21a8">4. Feature extraction &amp; representation</text>
+    <text class="band-sub" x="60" y="824">Turning pixel regions into descriptors that capture shape, texture, and identity</text>
+    <g>
+      <rect x="100" y="835" width="360" height="95" rx="8" fill="#fff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="ts" x="118" y="856" font-weight="600" fill="#6b21a8">Hand-crafted descriptors</text>
+      <text class="tsub" x="118" y="874">Corners, SIFT, HOG, SURF</text>
+      <text class="lit" x="118" y="892">Lowe 2004; Dalal &amp; Triggs 2005</text>
+    </g>
+    <g>
+      <rect x="500" y="835" width="360" height="95" rx="8" fill="#fff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="ts" x="518" y="856" font-weight="600" fill="#6b21a8">Learned (CNN) features</text>
+      <text class="tsub" x="518" y="874">Convolutional filter hierarchies</text>
+      <text class="lit" x="518" y="892">LeCun 1998; Krizhevsky 2012</text>
+    </g>
+    <g>
+      <rect x="900" y="835" width="320" height="95" rx="8" fill="#fff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="ts" x="918" y="856" font-weight="600" fill="#6b21a8">Feature matching</text>
+      <text class="tsub" x="918" y="874">Descriptor distance, RANSAC</text>
+      <text class="lit" x="918" y="892">Fischler &amp; Bolles 1981</text>
+    </g>
+    <line x1="700" y1="950" x2="700" y2="1000" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="982">features are used to locate and label content</text>
+
+    <!-- ===== STAGE 5: DETECTION & RECOGNITION ===== -->
+    <rect x="40" y="1000" width="1220" height="170" rx="12" fill="#ffedd5" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1026" fill="#9a3412">5. Detection, recognition &amp; classification</text>
+    <text class="band-sub" x="60" y="1044">Assigning semantic identity and location to visual content</text>
+    <g>
+      <rect x="100" y="1055" width="360" height="95" rx="8" fill="#fff" stroke="#c2410c" stroke-width="1"/>
+      <text class="ts" x="118" y="1076" font-weight="600" fill="#9a3412">Classical detectors</text>
+      <text class="tsub" x="118" y="1094">Cascade classifiers, HOG+SVM</text>
+      <text class="lit" x="118" y="1112">Viola &amp; Jones 2001</text>
+    </g>
+    <g>
+      <rect x="500" y="1055" width="360" height="95" rx="8" fill="#fff" stroke="#c2410c" stroke-width="1"/>
+      <text class="ts" x="518" y="1076" font-weight="600" fill="#9a3412">Region-proposal networks</text>
+      <text class="tsub" x="518" y="1094">R-CNN, Fast/Faster R-CNN</text>
+      <text class="lit" x="518" y="1112">Girshick 2014; Ren et al. 2015</text>
+    </g>
+    <g>
+      <rect x="900" y="1055" width="320" height="95" rx="8" fill="#fff" stroke="#c2410c" stroke-width="1"/>
+      <text class="ts" x="918" y="1076" font-weight="600" fill="#9a3412">Single-shot detectors</text>
+      <text class="tsub" x="918" y="1094">YOLO, SSD real-time detection</text>
+      <text class="lit" x="918" y="1112">Redmon 2016; Liu 2016</text>
+    </g>
+    <line x1="700" y1="1170" x2="700" y2="1220" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="1202">individual detections are integrated into a coherent scene</text>
+
+    <!-- ===== STAGE 6: SCENE UNDERSTANDING ===== -->
+    <rect x="40" y="1220" width="1220" height="170" rx="12" fill="#fce7f3" stroke="#be185d" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1246" fill="#9d174d">6. Scene understanding &amp; reasoning</text>
+    <text class="band-sub" x="60" y="1264">Relating objects to each other and over time for higher-level meaning</text>
+    <g>
+      <rect x="100" y="1275" width="360" height="95" rx="8" fill="#fff" stroke="#be185d" stroke-width="1"/>
+      <text class="ts" x="118" y="1296" font-weight="600" fill="#9d174d">Semantic / instance segmentation</text>
+      <text class="tsub" x="118" y="1314">Per-pixel and per-object labeling</text>
+      <text class="lit" x="118" y="1332">He et al. 2017 (Mask R-CNN)</text>
+    </g>
+    <g>
+      <rect x="500" y="1275" width="360" height="95" rx="8" fill="#fff" stroke="#be185d" stroke-width="1"/>
+      <text class="ts" x="518" y="1296" font-weight="600" fill="#9d174d">Tracking &amp; motion analysis</text>
+      <text class="tsub" x="518" y="1314">Associating identity across frames</text>
+      <text class="lit" x="518" y="1332">Kalman/particle filter tracking</text>
+    </g>
+    <g>
+      <rect x="900" y="1275" width="320" height="95" rx="8" fill="#fff" stroke="#be185d" stroke-width="1"/>
+      <text class="ts" x="918" y="1296" font-weight="600" fill="#9d174d">Contextual / relational reasoning</text>
+      <text class="tsub" x="918" y="1314">Scene graphs, spatial relations</text>
+    </g>
+    <line x1="700" y1="1390" x2="700" y2="1440" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="720" y="1422">understanding is turned into a usable result</text>
+
+    <!-- ===== STAGE 7: OUTPUT ===== -->
+    <rect x="40" y="1440" width="1220" height="170" rx="12" fill="#e2e8f0" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1466" fill="#1e293b">7. Output &amp; action</text>
+    <text class="band-sub" x="60" y="1484">Delivering the system's interpretation to a person or downstream process</text>
+    <g>
+      <rect x="100" y="1495" width="360" height="95" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+      <text class="ts" x="118" y="1516" font-weight="600" fill="#1e293b">Visualization</text>
+      <text class="tsub" x="118" y="1534">Annotated overlays, dashboards</text>
+    </g>
+    <g>
+      <rect x="500" y="1495" width="360" height="95" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+      <text class="ts" x="518" y="1516" font-weight="600" fill="#1e293b">Decision / control signal</text>
+      <text class="tsub" x="518" y="1534">Robotics, autonomous navigation</text>
+    </g>
+    <g>
+      <rect x="900" y="1495" width="320" height="95" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+      <text class="ts" x="918" y="1516" font-weight="600" fill="#1e293b">Downstream analytics</text>
+      <text class="tsub" x="918" y="1534">Statistics, alerts, retrieval</text>
+    </g>
+
+    <!-- FEEDBACK LOOP -->
+    <path d="M1120,1590 C1300,1590 1300,300 1120,205" fill="none" stroke="#888" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#arrow)"/>
+    <text class="lit" x="1315" y="900" transform="rotate(90 1315 900)">feedback: output informs acquisition (active vision, exposure/AF control)</text>
+
+  </svg>
+
+  <footer>
+    The dashed side path marks a feedback loop found in active-vision and closed-loop robotics literature: downstream output (e.g. detected regions of interest) can steer acquisition parameters such as exposure, focus, or camera pose for the next frame, making the pipeline cyclical rather than strictly one-directional.
+  </footer>
+</div>
+</body>
+</html>
