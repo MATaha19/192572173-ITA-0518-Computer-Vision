@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Imaging Pipeline: From Scene to Digital Image</title>
+<style>
+  body {
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: #fafaf7;
+    color: #222;
+    margin: 0;
+    padding: 32px 16px 64px;
+  }
+  .wrap { max-width: 1400px; margin: 0 auto; }
+  h1 { font-size: 24px; font-weight: 600; margin-bottom: 4px; }
+  p.sub { color: #555; margin-top: 0; margin-bottom: 24px; font-size: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 24px; font-size: 12.5px; }
+  .legend span.dot { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+  svg { display: block; width: 100%; height: auto; background: #fff; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .t   { font-size: 15px; font-weight: 600; }
+  .ts  { font-size: 12.5px; }
+  .band-label { font-size: 15px; font-weight: 700; }
+  .band-sub   { font-size: 12px; fill: #555; }
+  .arrow-label { font-size: 12.5px; fill: #444; }
+  .cross-label { font-size: 12px; fill: #666; font-style: italic; }
+  footer { margin-top: 20px; font-size: 12.5px; color: #666; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>The imaging pipeline: from real-world scene to digital image</h1>
+  <p class="sub">A concept map of the physical, optical, electronic, and computational transformations that convert scene radiance into a stored digital image, synthesized from image formation, sensor engineering, and image processing literature.</p>
+
+  <div class="legend">
+    <div><span class="dot" style="background:#2e7d32"></span>Scene &amp; illumination</div>
+    <div><span class="dot" style="background:#1565c0"></span>Optics</div>
+    <div><span class="dot" style="background:#3730a3"></span>Image formation</div>
+    <div><span class="dot" style="background:#c2410c"></span>Photodetection</div>
+    <div><span class="dot" style="background:#b45309"></span>Sampling</div>
+    <div><span class="dot" style="background:#b91c1c"></span>Quantization</div>
+    <div><span class="dot" style="background:#be185d"></span>Raw &amp; demosaicing</div>
+    <div><span class="dot" style="background:#7e22ce"></span>Color processing</div>
+    <div><span class="dot" style="background:#0f766e"></span>Image enhancement</div>
+    <div><span class="dot" style="background:#334155"></span>Digital representation</div>
+  </div>
+
+  <svg viewBox="0 0 1400 2820" xmlns="http://www.w3.org/2000/svg" role="img">
+    <title>Concept map of the imaging pipeline</title>
+    <desc>Ten linked stages showing how a real-world scene becomes a digital image, with two cross-cutting dependencies highlighted.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+      <marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- ============ BAND 1: SCENE ============ -->
+    <rect x="40" y="40" width="1220" height="190" rx="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="66" fill="#1b5e20">1. Real-world scene</text>
+    <text class="band-sub" x="60" y="84">Sources of light and radiance entering the system</text>
+
+    <g>
+      <rect x="100" y="95" width="340" height="110" rx="8" fill="#ffffff" stroke="#2e7d32" stroke-width="1"/>
+      <text class="t" x="120" y="122" fill="#1b5e20">Illuminant</text>
+      <text class="ts" x="120" y="142" fill="#333">Spectral power distribution</text>
+      <text class="ts" x="120" y="160" fill="#333">(sunlight, tungsten, LED, flash)</text>
+    </g>
+    <g>
+      <rect x="480" y="95" width="340" height="110" rx="8" fill="#ffffff" stroke="#2e7d32" stroke-width="1"/>
+      <text class="t" x="500" y="122" fill="#1b5e20">Object surface</text>
+      <text class="ts" x="500" y="142" fill="#333">Reflectance / BRDF determines</text>
+      <text class="ts" x="500" y="160" fill="#333">how light scatters off materials</text>
+    </g>
+    <g>
+      <rect x="860" y="95" width="340" height="110" rx="8" fill="#ffffff" stroke="#2e7d32" stroke-width="1"/>
+      <text class="t" x="880" y="122" fill="#1b5e20">Transmitting medium</text>
+      <text class="ts" x="880" y="142" fill="#333">Atmospheric scattering,</text>
+      <text class="ts" x="880" y="160" fill="#333">occlusion, haze</text>
+    </g>
+
+    <line x1="650" y1="230" x2="650" y2="300" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="270">radiant light reflects and travels toward the camera</text>
+
+    <!-- ============ BAND 2: OPTICS ============ -->
+    <rect x="40" y="300" width="1220" height="190" rx="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="326" fill="#0d47a1">2. Optical system</text>
+    <text class="band-sub" x="60" y="344">Lens elements shape incoming light before it reaches the sensor</text>
+
+    <g>
+      <rect x="100" y="355" width="340" height="110" rx="8" fill="#ffffff" stroke="#1565c0" stroke-width="1"/>
+      <text class="t" x="120" y="382" fill="#0d47a1">Lens system</text>
+      <text class="ts" x="120" y="402" fill="#333">Focal length and refraction</text>
+      <text class="ts" x="120" y="420" fill="#333">bend rays toward a focal plane</text>
+    </g>
+    <g>
+      <rect x="480" y="355" width="340" height="110" rx="8" fill="#ffffff" stroke="#1565c0" stroke-width="1"/>
+      <text class="t" x="500" y="382" fill="#0d47a1">Aperture (f-number)</text>
+      <text class="ts" x="500" y="402" fill="#333">Controls light throughput and</text>
+      <text class="ts" x="500" y="420" fill="#333">depth of field</text>
+    </g>
+    <g>
+      <rect x="860" y="355" width="340" height="110" rx="8" fill="#ffffff" stroke="#1565c0" stroke-width="1"/>
+      <text class="t" x="880" y="382" fill="#0d47a1">Aberrations &amp; diffraction</text>
+      <text class="ts" x="880" y="402" fill="#333">Limit resolving power via the</text>
+      <text class="ts" x="880" y="420" fill="#333">point spread function (PSF)</text>
+    </g>
+
+    <line x1="650" y1="490" x2="650" y2="560" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="530">rays are refracted and brought into focus</text>
+
+    <!-- ============ BAND 3: IMAGE FORMATION ============ -->
+    <rect x="40" y="560" width="1220" height="190" rx="12" fill="#e8eaf6" stroke="#3730a3" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="586" fill="#283593">3. Image formation</text>
+    <text class="band-sub" x="60" y="604">Continuous scene light is mapped onto a 2D focal plane</text>
+
+    <g>
+      <rect x="100" y="615" width="340" height="110" rx="8" fill="#ffffff" stroke="#3730a3" stroke-width="1"/>
+      <text class="t" x="120" y="642" fill="#283593">Perspective projection</text>
+      <text class="ts" x="120" y="662" fill="#333">Pinhole/thin-lens model maps</text>
+      <text class="ts" x="120" y="680" fill="#333">3D scene points to 2D coordinates</text>
+    </g>
+    <g>
+      <rect x="480" y="615" width="340" height="110" rx="8" fill="#ffffff" stroke="#3730a3" stroke-width="1"/>
+      <text class="t" x="500" y="642" fill="#283593">Irradiance pattern</text>
+      <text class="ts" x="500" y="662" fill="#333">Spatial distribution of light</text>
+      <text class="ts" x="500" y="680" fill="#333">energy across the focal plane</text>
+    </g>
+    <g>
+      <rect x="860" y="615" width="340" height="110" rx="8" fill="#ffffff" stroke="#3730a3" stroke-width="1"/>
+      <text class="t" x="880" y="642" fill="#283593">PSF convolution</text>
+      <text class="ts" x="880" y="662" fill="#333">Optical and motion blur applied</text>
+      <text class="ts" x="880" y="680" fill="#333">to the ideal scene image</text>
+    </g>
+
+    <line x1="650" y1="750" x2="650" y2="820" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="790">photons strike the photosensitive array</text>
+
+    <!-- ============ BAND 4: SENSOR ============ -->
+    <rect x="40" y="820" width="1220" height="190" rx="12" fill="#ffedd5" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="846" fill="#9a3412">4. Photodetection (sensor)</text>
+    <text class="band-sub" x="60" y="864">Light is converted into electrical charge, pixel by pixel</text>
+
+    <g>
+      <rect x="100" y="875" width="340" height="110" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1"/>
+      <text class="t" x="120" y="902" fill="#9a3412">CCD / CMOS array</text>
+      <text class="ts" x="120" y="922" fill="#333">Photosites convert photons into</text>
+      <text class="ts" x="120" y="940" fill="#333">accumulated electron charge</text>
+    </g>
+    <g>
+      <rect x="480" y="875" width="340" height="110" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1"/>
+      <text class="t" x="500" y="902" fill="#9a3412">Color filter array</text>
+      <text class="ts" x="500" y="922" fill="#333">Bayer mosaic lets each photosite</text>
+      <text class="ts" x="500" y="940" fill="#333">sense only one color channel</text>
+    </g>
+    <g>
+      <rect x="860" y="875" width="340" height="110" rx="8" fill="#ffffff" stroke="#c2410c" stroke-width="1"/>
+      <text class="t" x="880" y="902" fill="#9a3412">Sensor noise</text>
+      <text class="ts" x="880" y="922" fill="#333">Shot, read, and dark-current</text>
+      <text class="ts" x="880" y="940" fill="#333">noise corrupt the true signal</text>
+    </g>
+
+    <line x1="650" y1="1010" x2="650" y2="1080" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="1050">the continuous signal is discretized spatially</text>
+
+    <!-- ============ BAND 5: SAMPLING ============ -->
+    <rect x="40" y="1080" width="1220" height="190" rx="12" fill="#fef3c7" stroke="#b45309" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1106" fill="#92400e">5. Spatial sampling</text>
+    <text class="band-sub" x="60" y="1124">The image is discretized into a finite grid of measurement points</text>
+
+    <g>
+      <rect x="100" y="1135" width="340" height="110" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1"/>
+      <text class="t" x="120" y="1162" fill="#92400e">Pixel pitch</text>
+      <text class="ts" x="120" y="1182" fill="#333">Photosite spacing sets the</text>
+      <text class="ts" x="120" y="1200" fill="#333">maximum spatial resolution</text>
+    </g>
+    <g>
+      <rect x="480" y="1135" width="340" height="110" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1"/>
+      <text class="t" x="500" y="1162" fill="#92400e">Nyquist limit</text>
+      <text class="ts" x="500" y="1182" fill="#333">Highest scene frequency that</text>
+      <text class="ts" x="500" y="1200" fill="#333">can be captured without aliasing</text>
+    </g>
+    <g>
+      <rect x="860" y="1135" width="340" height="110" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="1"/>
+      <text class="t" x="880" y="1162" fill="#92400e">Optical low-pass filter</text>
+      <text class="ts" x="880" y="1182" fill="#333">Blurs frequencies above Nyquist</text>
+      <text class="ts" x="880" y="1200" fill="#333">to suppress moiré/aliasing</text>
+    </g>
+
+    <line x1="650" y1="1270" x2="650" y2="1340" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="1310">the analog charge is amplified and digitized</text>
+
+    <!-- ============ BAND 6: ADC ============ -->
+    <rect x="40" y="1340" width="1220" height="190" rx="12" fill="#fee2e2" stroke="#b91c1c" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1366" fill="#7f1d1d">6. Analog-to-digital conversion</text>
+    <text class="band-sub" x="60" y="1384">Continuous voltages become finite-precision digital codes</text>
+
+    <g>
+      <rect x="100" y="1395" width="340" height="110" rx="8" fill="#ffffff" stroke="#b91c1c" stroke-width="1"/>
+      <text class="t" x="120" y="1422" fill="#7f1d1d">Analog gain (ISO)</text>
+      <text class="ts" x="120" y="1442" fill="#333">Amplifies the sensor voltage</text>
+      <text class="ts" x="120" y="1460" fill="#333">before conversion</text>
+    </g>
+    <g>
+      <rect x="480" y="1395" width="340" height="110" rx="8" fill="#ffffff" stroke="#b91c1c" stroke-width="1"/>
+      <text class="t" x="500" y="1422" fill="#7f1d1d">ADC</text>
+      <text class="ts" x="500" y="1442" fill="#333">Converts each pixel's voltage</text>
+      <text class="ts" x="500" y="1460" fill="#333">into a digital numeric code</text>
+    </g>
+    <g>
+      <rect x="860" y="1395" width="340" height="110" rx="8" fill="#ffffff" stroke="#b91c1c" stroke-width="1"/>
+      <text class="t" x="880" y="1422" fill="#7f1d1d">Bit depth &amp; dynamic range</text>
+      <text class="ts" x="880" y="1442" fill="#333">Sets tonal precision and the</text>
+      <text class="ts" x="880" y="1460" fill="#333">darkest/brightest values storable</text>
+    </g>
+
+    <line x1="650" y1="1530" x2="650" y2="1600" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="1570">digital values are arranged as a color mosaic</text>
+
+    <!-- ============ BAND 7: RAW / DEMOSAIC ============ -->
+    <rect x="40" y="1600" width="1220" height="190" rx="12" fill="#fce7f3" stroke="#be185d" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1626" fill="#9d174d">7. Raw data &amp; demosaicing</text>
+    <text class="band-sub" x="60" y="1644">Reconstructing a full-color image from a single-channel mosaic</text>
+
+    <g>
+      <rect x="100" y="1655" width="340" height="110" rx="8" fill="#ffffff" stroke="#be185d" stroke-width="1"/>
+      <text class="t" x="120" y="1682" fill="#9d174d">Raw mosaic image</text>
+      <text class="ts" x="120" y="1702" fill="#333">One color channel measured</text>
+      <text class="ts" x="120" y="1720" fill="#333">per pixel location</text>
+    </g>
+    <g>
+      <rect x="480" y="1655" width="340" height="110" rx="8" fill="#ffffff" stroke="#be185d" stroke-width="1"/>
+      <text class="t" x="500" y="1682" fill="#9d174d">Demosaicing</text>
+      <text class="ts" x="500" y="1702" fill="#333">Interpolates missing R, G, B</text>
+      <text class="ts" x="500" y="1720" fill="#333">values at every pixel</text>
+    </g>
+    <g>
+      <rect x="860" y="1655" width="340" height="110" rx="8" fill="#ffffff" stroke="#be185d" stroke-width="1"/>
+      <text class="t" x="880" y="1682" fill="#9d174d">White balance</text>
+      <text class="ts" x="880" y="1702" fill="#333">Corrects the illuminant's color</text>
+      <text class="ts" x="880" y="1720" fill="#333">cast so neutrals appear neutral</text>
+    </g>
+
+    <line x1="650" y1="1790" x2="650" y2="1860" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="1830">color is calibrated to a standard, device-independent space</text>
+
+    <!-- ============ BAND 8: COLOR PROCESSING ============ -->
+    <rect x="40" y="1860" width="1220" height="190" rx="12" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="1886" fill="#6b21a8">8. Color processing</text>
+    <text class="band-sub" x="60" y="1904">Mapping sensor-specific color to perceptually meaningful, standard color</text>
+
+    <g>
+      <rect x="100" y="1915" width="340" height="110" rx="8" fill="#ffffff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="t" x="120" y="1942" fill="#6b21a8">Color correction matrix</text>
+      <text class="ts" x="120" y="1962" fill="#333">Maps sensor-specific RGB to a</text>
+      <text class="ts" x="120" y="1980" fill="#333">reference color space</text>
+    </g>
+    <g>
+      <rect x="480" y="1915" width="340" height="110" rx="8" fill="#ffffff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="t" x="500" y="1942" fill="#6b21a8">Color space transform</text>
+      <text class="ts" x="500" y="1962" fill="#333">Camera RGB &#8594; CIE XYZ &#8594;</text>
+      <text class="ts" x="500" y="1980" fill="#333">sRGB or another output space</text>
+    </g>
+    <g>
+      <rect x="860" y="1915" width="340" height="110" rx="8" fill="#ffffff" stroke="#7e22ce" stroke-width="1"/>
+      <text class="t" x="880" y="1942" fill="#6b21a8">Gamma / tone curve</text>
+      <text class="ts" x="880" y="1962" fill="#333">Nonlinear encoding matches</text>
+      <text class="ts" x="880" y="1980" fill="#333">human luminance perception</text>
+    </g>
+
+    <line x1="650" y1="2050" x2="650" y2="2120" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="2090">signal is enhanced and range-compressed</text>
+
+    <!-- ============ BAND 9: PROCESSING PIPELINE ============ -->
+    <rect x="40" y="2120" width="1220" height="190" rx="12" fill="#ccfbf1" stroke="#0f766e" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="2146" fill="#115e59">9. Image enhancement pipeline</text>
+    <text class="band-sub" x="60" y="2164">Computational steps that improve perceptual quality</text>
+
+    <g>
+      <rect x="100" y="2175" width="340" height="110" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="1"/>
+      <text class="t" x="120" y="2202" fill="#115e59">Denoising</text>
+      <text class="ts" x="120" y="2222" fill="#333">Removes sensor-noise artifacts</text>
+      <text class="ts" x="120" y="2240" fill="#333">while preserving detail</text>
+    </g>
+    <g>
+      <rect x="480" y="2175" width="340" height="110" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="1"/>
+      <text class="t" x="500" y="2202" fill="#115e59">Sharpening</text>
+      <text class="ts" x="500" y="2222" fill="#333">Boosts edge contrast lost to</text>
+      <text class="ts" x="500" y="2240" fill="#333">the optical/sensor blur (PSF)</text>
+    </g>
+    <g>
+      <rect x="860" y="2175" width="340" height="110" rx="8" fill="#ffffff" stroke="#0f766e" stroke-width="1"/>
+      <text class="t" x="880" y="2202" fill="#115e59">Tone mapping / HDR fusion</text>
+      <text class="ts" x="880" y="2222" fill="#333">Compresses captured dynamic</text>
+      <text class="ts" x="880" y="2240" fill="#333">range into a displayable range</text>
+    </g>
+
+    <line x1="650" y1="2310" x2="650" y2="2380" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <text class="arrow-label" x="670" y="2350">the result is encoded into a structured format</text>
+
+    <!-- ============ BAND 10: DIGITAL REPRESENTATION ============ -->
+    <rect x="40" y="2380" width="1220" height="190" rx="12" fill="#e2e8f0" stroke="#334155" stroke-width="1" stroke-dasharray="4 3"/>
+    <text class="band-label" x="60" y="2406" fill="#1e293b">10. Digital image representation</text>
+    <text class="band-sub" x="60" y="2424">The final structured artifact that can be stored, transmitted, and displayed</text>
+
+    <g>
+      <rect x="100" y="2435" width="340" height="110" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+      <text class="t" x="120" y="2462" fill="#1e293b">Raster pixel array</text>
+      <text class="ts" x="120" y="2482" fill="#333">Discrete grid of intensity or</text>
+      <text class="ts" x="120" y="2500" fill="#333">color values per channel</text>
+    </g>
+    <g>
+      <rect x="480" y="2435" width="340" height="110" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+      <text class="t" x="500" y="2462" fill="#1e293b">Compression</text>
+      <text class="ts" x="500" y="2482" fill="#333">Lossy (JPEG/DCT) or lossless</text>
+      <text class="ts" x="500" y="2500" fill="#333">(PNG) encoding reduces size</text>
+    </g>
+    <g>
+      <rect x="860" y="2435" width="340" height="110" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1"/>
+      <text class="t" x="880" y="2462" fill="#1e293b">Metadata &amp; file format</text>
+      <text class="ts" x="880" y="2482" fill="#333">EXIF, color profile, and</text>
+      <text class="ts" x="880" y="2500" fill="#333">container structure</text>
+    </g>
+
+    <line x1="650" y1="2570" x2="650" y2="2640" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- ============ FINAL OUTPUT ============ -->
+    <rect x="410" y="2650" width="580" height="90" rx="10" fill="#1e293b" stroke="#0f172a" stroke-width="1"/>
+    <text class="t" x="700" y="2688" fill="#ffffff" text-anchor="middle">Digital image file</text>
+    <text class="ts" x="700" y="2708" fill="#cbd5e1" text-anchor="middle">Ready for storage, transmission, or display</text>
+
+    <!-- ============ CROSS-CUTTING DEPENDENCIES ============ -->
+    <path d="M820,410 C1080,410 1260,410 1260,650 C1260,760 1260,850 1200,930"
+          fill="none" stroke="#888" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#arrow-gray)"/>
+    <text class="cross-label" x="1268" y="640">less light in (small aperture)</text>
+    <text class="cross-label" x="1268" y="656">&#8594; more sensor noise</text>
+
+    <path d="M1200,1450 C1340,1450 1360,1450 1360,1840 C1360,2000 1360,2160 1200,2230"
+          fill="none" stroke="#888" stroke-width="1.3" stroke-dasharray="6 4" marker-end="url(#arrow-gray)"/>
+    <text class="cross-label" x="1330" y="1820" transform="rotate(90 1330 1820)">bit depth caps achievable HDR range</text>
+
+  </svg>
+
+  <footer>
+    Dashed gray curves mark cross-cutting dependencies that skip several stages (e.g. aperture choice affecting noise; bit depth constraining tone mapping) &mdash; these reflect how the pipeline's stages interact non-linearly rather than purely sequentially.
+  </footer>
+</div>
+</body>
+</html>
