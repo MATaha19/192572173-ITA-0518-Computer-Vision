@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Image Resolution &amp; Intensity Levels: Concept Map</title>
+<style>
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background:#fafaf7; color:#222; margin:0; padding:32px 16px 64px; }
+  .wrap { max-width:1400px; margin:0 auto; }
+  h1 { font-size:24px; font-weight:600; margin-bottom:4px; }
+  p.sub { color:#555; margin-top:0; margin-bottom:24px; font-size:14px; }
+  .legend { display:flex; flex-wrap:wrap; gap:10px 18px; margin-bottom:24px; font-size:12.5px; }
+  .legend span.dot { display:inline-block; width:11px; height:11px; border-radius:3px; margin-right:6px; vertical-align:-1px; }
+  svg { display:block; width:100%; height:auto; background:#fff; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+  .t { font-size:14.5px; font-weight:600; }
+  .ts { font-size:12px; }
+  .lit { font-size:10.5px; fill:#666; font-style:italic; }
+  footer { margin-top:20px; font-size:12.5px; color:#666; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Image resolution &amp; intensity levels: cause-effect concept map</h1>
+  <p class="sub">Two independent axes of digital image fidelity &mdash; spatial resolution and intensity (amplitude) resolution &mdash; and how deficiencies in each propagate through perceived quality to real-world usability.</p>
+
+  <div class="legend">
+    <div><span class="dot" style="background:#1565c0"></span>Spatial resolution concepts</div>
+    <div><span class="dot" style="background:#7e22ce"></span>Intensity resolution concepts</div>
+    <div><span class="dot" style="background:#b45309"></span>Cause (deficiency)</div>
+    <div><span class="dot" style="background:#b91c1c"></span>Effect (artifact)</div>
+    <div><span class="dot" style="background:#0f766e"></span>Trade-off / synthesis</div>
+    <div><span class="dot" style="background:#334155"></span>Usability outcome</div>
+  </div>
+
+  <svg viewBox="0 0 1400 1100" xmlns="http://www.w3.org/2000/svg" role="img">
+    <title>Concept map of image resolution and intensity levels</title>
+    <desc>Spatial resolution and intensity resolution branch into their causes and artifacts, converge through an isopreference trade-off and perceived quality, and terminate in usability outcomes.</desc>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M2 1L8 5L2 9" fill="none" stroke="#555" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </marker>
+    </defs>
+
+    <!-- TITLE -->
+    <rect x="500" y="20" width="400" height="60" rx="10" fill="#111827" stroke="#000" stroke-width="1"/>
+    <text class="t" x="700" y="55" fill="#fff" text-anchor="middle">Image resolution &amp; intensity levels</text>
+
+    <line x1="660" y1="80" x2="370" y2="118" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="740" y1="80" x2="1030" y2="118" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- L1: Spatial resolution definition -->
+    <rect x="60" y="120" width="620" height="110" rx="8" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+    <text class="t" x="80" y="148" fill="#0d47a1">Spatial resolution</text>
+    <text class="ts" x="80" y="170" fill="#333">Sampling density: pixels per unit area (ppi/dpi)</text>
+    <text class="ts" x="80" y="188" fill="#333">Bounded by the Nyquist sampling criterion</text>
+    <text class="lit" x="80" y="206">cf. Gonzalez &amp; Woods, Digital Image Processing</text>
+
+    <!-- R1: Intensity resolution definition -->
+    <rect x="720" y="120" width="620" height="110" rx="8" fill="#f3e8ff" stroke="#7e22ce" stroke-width="1"/>
+    <text class="t" x="740" y="148" fill="#6b21a8">Intensity (amplitude) resolution</text>
+    <text class="ts" x="740" y="170" fill="#333">Quantization levels L = 2^k, set by bit depth k</text>
+    <text class="ts" x="740" y="188" fill="#333">Finest distinguishable brightness difference</text>
+    <text class="lit" x="740" y="206">cf. Weber&#8211;Fechner law of perceptual sensitivity</text>
+
+    <line x1="370" y1="230" x2="370" y2="270" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="1030" y1="230" x2="1030" y2="270" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- L2: cause -->
+    <rect x="60" y="270" width="620" height="90" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1"/>
+    <text class="t" x="80" y="298" fill="#92400e">Insufficient spatial sampling</text>
+    <text class="ts" x="80" y="320" fill="#333">Pixel pitch too coarse relative to scene detail</text>
+
+    <!-- R2: cause -->
+    <rect x="720" y="270" width="620" height="90" rx="8" fill="#fef3c7" stroke="#b45309" stroke-width="1"/>
+    <text class="t" x="740" y="298" fill="#92400e">Insufficient quantization levels</text>
+    <text class="ts" x="740" y="320" fill="#333">Too few gray levels for smooth tonal gradients</text>
+
+    <line x1="370" y1="360" x2="205" y2="400" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="370" y1="360" x2="535" y2="400" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="1030" y1="360" x2="865" y2="400" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="1030" y1="360" x2="1195" y2="400" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- L3a -->
+    <rect x="60" y="400" width="290" height="90" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1"/>
+    <text class="t" x="78" y="428" fill="#7f1d1d">Aliasing &amp; moir&#233;</text>
+    <text class="ts" x="78" y="450" fill="#333">Artifacts from undersampled</text>
+    <text class="ts" x="78" y="466" fill="#333">high-frequency detail</text>
+
+    <!-- L3b -->
+    <rect x="390" y="400" width="290" height="90" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1"/>
+    <text class="t" x="408" y="428" fill="#7f1d1d">Pixelation &amp; detail loss</text>
+    <text class="ts" x="408" y="450" fill="#333">Blocky appearance; thin</text>
+    <text class="ts" x="408" y="466" fill="#333">structures disappear</text>
+
+    <!-- R3a -->
+    <rect x="720" y="400" width="290" height="90" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1"/>
+    <text class="t" x="738" y="428" fill="#7f1d1d">False contouring</text>
+    <text class="ts" x="738" y="450" fill="#333">Visible steps in what should</text>
+    <text class="ts" x="738" y="466" fill="#333">be smooth gradients</text>
+
+    <!-- R3b -->
+    <rect x="1050" y="400" width="290" height="90" rx="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1"/>
+    <text class="t" x="1068" y="428" fill="#7f1d1d">Quantization error</text>
+    <text class="ts" x="1068" y="450" fill="#333">Rounding reduces measurement</text>
+    <text class="ts" x="1068" y="466" fill="#333">precision (SNR loss)</text>
+
+    <!-- convergence arrows -->
+    <line x1="205" y1="490" x2="640" y2="558" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="535" y1="490" x2="680" y2="558" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="865" y1="490" x2="720" y2="558" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+    <line x1="1195" y1="490" x2="760" y2="558" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- Isopreference band -->
+    <rect x="60" y="560" width="1280" height="110" rx="10" fill="#ccfbf1" stroke="#0f766e" stroke-width="1"/>
+    <text class="t" x="700" y="588" fill="#115e59" text-anchor="middle">Isopreference trade-off (Gonzalez &amp; Woods)</text>
+    <text class="ts" x="700" y="610" fill="#333" text-anchor="middle">Perceived quality depends jointly on resolution and gray levels, not either alone</text>
+    <text class="ts" x="700" y="628" fill="#333" text-anchor="middle">More gray levels partly offset lower resolution in detailed images; less so in smooth images</text>
+
+    <line x1="700" y1="670" x2="700" y2="720" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- Perceived quality -->
+    <rect x="450" y="720" width="500" height="100" rx="10" fill="#99f6e4" stroke="#0f766e" stroke-width="1"/>
+    <text class="t" x="700" y="750" fill="#115e59" text-anchor="middle">Perceived image quality</text>
+    <text class="ts" x="700" y="772" fill="#333" text-anchor="middle">Combined human and algorithmic assessment of fidelity</text>
+
+    <line x1="700" y1="820" x2="700" y2="870" stroke="#555" stroke-width="1.4" marker-end="url(#arrow)"/>
+
+    <!-- Usability band -->
+    <rect x="60" y="870" width="1280" height="170" rx="10" fill="#e2e8f0" stroke="#334155" stroke-width="1"/>
+    <text class="t" x="700" y="898" fill="#1e293b" text-anchor="middle">Usability &amp; task performance implications</text>
+
+    <rect x="100" y="920" width="380" height="90" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+    <text class="ts" x="118" y="944" font-weight="600" fill="#1e293b">Diagnostic &amp; measurement accuracy</text>
+    <text class="ts" x="118" y="964" fill="#333">Medical imaging, remote sensing need</text>
+    <text class="ts" x="118" y="980" fill="#333">sufficient resolution and bit depth</text>
+
+    <rect x="510" y="920" width="380" height="90" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+    <text class="ts" x="528" y="944" font-weight="600" fill="#1e293b">Recognition &amp; analysis accuracy</text>
+    <text class="ts" x="528" y="964" fill="#333">CV/OCR performance degrades below</text>
+    <text class="ts" x="528" y="980" fill="#333">resolution/bit-depth thresholds</text>
+
+    <rect x="920" y="920" width="380" height="90" rx="8" fill="#fff" stroke="#334155" stroke-width="1"/>
+    <text class="ts" x="938" y="944" font-weight="600" fill="#1e293b">Storage, bandwidth &amp; compute cost</text>
+    <text class="ts" x="938" y="964" fill="#333">Higher resolution and bit depth increase</text>
+    <text class="ts" x="938" y="980" fill="#333">file size and processing load</text>
+
+  </svg>
+
+  <footer>
+    Cause (amber) and effect (red) nodes trace how a deficiency in each axis produces a specific visual artifact; both artifact chains converge on the isopreference trade-off &mdash; the classic finding that perceived quality is a joint function of resolution and gray levels, not either in isolation &mdash; which then determines perceived quality and, ultimately, real-world usability.
+  </footer>
+</div>
+</body>
+</html>
